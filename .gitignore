@@ -1,6 +1,31 @@
-.terraform/
-.terraform.lock.hcl
+# Ignore Terraform local state
 *.tfstate
 *.tfstate.backup
-*.log
+
+# Crash logs
 crash.log
+
+# Exclude .terraform folder (plugin binaries, cache, etc.)
+.terraform/
+
+# Override for .terraform.lock.hcl (can be committed to track dependency versions)
+!.terraform.lock.hcl
+
+# Ignore override files (used for local-only configs)
+*.tfvars
+*.tfvars.json
+terraform.tfvars
+terraform.tfvars.json
+
+# Ignore editor/IDE related files
+.vscode/
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Ignore log files
+*.log
+
+# Ignore Terraform plan output (optional)
+plan.out
