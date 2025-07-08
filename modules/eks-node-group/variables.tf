@@ -1,5 +1,5 @@
 variable "cluster_name" {
-  description = "Nama EKS Cluster"
+  description = "Name EKS Cluster"
   type        = string
 }
 
@@ -9,22 +9,22 @@ variable "cluster_endpoint" {
 }
 
 variable "node_group_name" {
-  description = "Nama Node Group"
+  description =  "Node Group Name"
   type        = string
 }
 
 variable "node_role_arn" {
-  description = "IAM Role ARN untuk node group"
+  description = "IAM Role ARN for node group"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "List subnet ID untuk node group"
+  description = "List subnet ID for node group"
   type        = list(string)
 }
 
 variable "ami_id" {
-  description = "AMI ID untuk node worker"
+  description = "AMI ID for node worker"
   type        = string
 }
 

@@ -4,11 +4,11 @@ variable "region" {
 }
 
 variable "vpc_cidr" {
-  description = "CIDR block untuk VPC"
+  description = "CIDR block for VPC"
   type        = string
 }
 
 variable "cluster_name" {
-  description = "Nama cluster untuk tagging"
+  description = "name cluster for tagging"
   type        = string
 }

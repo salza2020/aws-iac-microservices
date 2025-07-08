@@ -1,6 +1,6 @@
 variable "region" {
   description = "AWS Region"
-  default     = "us-west-2"
+  default     = "us-east-1"
 }
 
 variable "vpc_cidr" {
@@ -9,13 +9,13 @@ variable "vpc_cidr" {
 }
 
 variable "cluster_name" {
-  description = "Nama EKS Cluster"
-  default     = "private-eks-cluster"
+  description = "Cluster_kloia"
+  default     = "demo-eks-cluster"
 }
 
 variable "node_group_name" {
   description = "Nama Node Group"
-  default     = "private-node-group"
+  default     = "demo-node-group"
 }
 
 variable "ami_id" {

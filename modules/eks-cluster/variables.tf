@@ -1,24 +1,24 @@
 variable "cluster_name" {
-  description = "Nama EKS Cluster"
+  description = "Name EKS Cluster"
   type        = string
 }
 
 variable "node_group_name" {
-  description = "Nama Node Group"
+  description = "Name Node Group"
   type        = string
 }
 
 variable "vpc_id" {
-  description = "ID VPC tempat cluster dibuat"
+  description = "ID VPC place cluster make it"
   type        = string
 }
 
 variable "subnet_ids" {
-  description = "Subnet private tempat node berada"
+  description = "Subnet private place node"
   type        = list(string)
 }
 
 variable "sg_id" {
-  description = "Security group untuk komunikasi cluster"
+  description = "Security group for communication cluster"
   type        = string
 }
