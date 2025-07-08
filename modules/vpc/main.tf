@@ -8,6 +8,15 @@ resource "aws_vpc" "eks_vpc" {
   }
 }
 
+# Internet Gateway untuk NAT Gateway
+resource "aws_internet_gateway" "eks_igw" {
+  vpc_id = aws_vpc.eks_vpc.id
+
+  tags = {
+    Name = "${var.cluster_name}-igw"
+  }
+}
+
 resource "aws_subnet" "eks_public_subnet" {
   count                   = 1
   vpc_id                  = aws_vpc.eks_vpc.id
@@ -35,7 +44,7 @@ data "aws_availability_zones" "available" {}
 
 resource "aws_eip" "nat_eip" {
   tags = {
-    Name = "${var.cluster_name}-nat-eip"
+    Name = "${var.cluster_name}nateip"
   }
 }
 
@@ -44,7 +53,7 @@ resource "aws_nat_gateway" "eks_nat_gw" {
   subnet_id     = aws_subnet.eks_public_subnet[0].id
 
   tags = {
-    Name = "${var.cluster_name}-nat-gw"
+    Name = "${var.cluster_name}natgw"
   }
 }
 
@@ -57,10 +66,28 @@ resource "aws_route_table" "eks_private_rt" {
   }
 
   tags = {
-    Name = "${var.cluster_name}-private-rt"
+    Name = "${var.cluster_name}privatert"
+  }
+}
+ resource "aws_route_table" "eks_public_rt" {
+  vpc_id = aws_vpc.eks_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.eks_igw.id
+  }
+
+  tags = {
+    Name = "${var.cluster_name}publicrt"
   }
 }
 
+# Hubungkan route table ke public subnet
+resource "aws_route_table_association" "eks_public_rta" {
+  count          = length(aws_subnet.eks_public_subnet[*].id)
+  subnet_id      = aws_subnet.eks_public_subnet[count.index].id
+  route_table_id = aws_route_table.eks_public_rt.id
+}
 resource "aws_route_table_association" "eks_private_rta" {
   count          = length(aws_subnet.eks_private_subnet[*].id)
   subnet_id      = aws_subnet.eks_private_subnet[count.index].id
@@ -68,7 +95,7 @@ resource "aws_route_table_association" "eks_private_rta" {
 }
 
 resource "aws_security_group" "eks_sg" {
-  name        = "${var.cluster_name}-sg"
+  name        = "${var.cluster_name}sg"
   description = "Allow Kubernetes traffic internal only"
   vpc_id      = aws_vpc.eks_vpc.id
 
@@ -98,6 +125,6 @@ resource "aws_security_group" "eks_sg" {
   }
 
   tags = {
-    Name = "${var.cluster_name}-sg"
+    Name = "${var.cluster_name}sg"
   }
 }

@@ -1,10 +1,10 @@
 resource "aws_iam_instance_profile" "eks_node_profile" {
-  name = "${var.node_group_name}-profile"
+  name = "${var.node_group_name}"
   role = var.node_role_arn
 }
 
 resource "aws_launch_template" "eks_node_lt" {
-  name = "${var.node_group_name}-lt"
+  name = "${var.node_group_name}"
   image_id      = var.ami_id
   instance_type = "t3.medium"
   key_name      = var.key_name
@@ -12,7 +12,7 @@ resource "aws_launch_template" "eks_node_lt" {
   tag_specifications {
     resource_type = "instance"
     tags = {
-      Name = "${var.node_group_name}-instance"
+      Name = "${var.node_group_name}"
     }
   }
 
