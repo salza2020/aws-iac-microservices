@@ -10,12 +10,12 @@ variable "vpc_cidr" {
 
 variable "cluster_name" {
   description = "Cluster_kloia"
-  default     = "demo-eks-cluster"
+  default     = "eks-cluster"
 }
 
 variable "node_group_name" {
   description = "Nama Node Group"
-  default     = "demo-node-group"
+  default     = "node-group"
 }
 
 variable "ami_id" {
