@@ -41,7 +41,7 @@ resource "aws_eks_cluster" "eks_cluster" {
 }
 
 resource "aws_iam_role" "eks_node_role" {
-  name = "NodeRole${var.node_group_name}"
+  name = "${var.node_group_name}"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17"

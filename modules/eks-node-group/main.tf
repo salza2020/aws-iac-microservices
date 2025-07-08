@@ -1,6 +1,6 @@
 resource "aws_iam_instance_profile" "eks_node_profile" {
   name = "${var.node_group_name}"
-  role = var.node_role_arn
+  role = var.node_group_name
 }
 
 resource "aws_launch_template" "eks_node_lt" {
