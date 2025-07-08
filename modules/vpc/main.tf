@@ -76,7 +76,18 @@ resource "aws_security_group" "eks_sg" {
     from_port   = 0
     to_port     = 65535
     protocol    = "-1"
-    cidr_blocks = [aws_vpc.eks_vpc.cidr_block]
+    cidr_blocks = [aws_vpc.eks_vpc.cidr_block] # Hanya izinkan dari dalam VPC
+  }
+
+  # Whitelist IP publik laptopmu
+  dynamic "ingress" {
+    for_each = var.my_public_ips
+    content {
+      from_port   = 443
+      to_port     = 443
+      protocol    = "tcp"
+      cidr_blocks = [ingress.value]
+    }
   }
 
   egress {
