@@ -16,7 +16,10 @@ module "eks_cluster" {
   sg_id           = module.eks_vpc.eks_sg_id
   node_group_name = var.node_group_name
 }
-
+data "aws_ssm_parameter" "eks_ami" {
+  name   = "/aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id"
+  region = "us-east-1"
+}
 # --- Modul EKS Node Group ---
 module "eks_node_group" {
   source           = "./modules/eks-node-group"
@@ -27,5 +30,5 @@ module "eks_node_group" {
   node_role_arn    = module.eks_cluster.node_role_arn
   subnet_ids       = module.eks_vpc.private_subnet_ids
   key_name         = var.key_name
-  ami_id           = var.ami_id
+  ami_id           = data.aws_ssm_parameter.eks_ami.value
 }

@@ -1,11 +1,11 @@
-resource "aws_iam_instance_profile" "eks_node_profile" {
-  name = "${var.node_group_name}"
-  role = var.node_group_name
+data "aws_ssm_parameter" "eks_ami" {
+  name   = "/aws/service/eks/optimized-ami/1.29/amazon-linux-2/recommended/image_id"
+  region = "us-east-1" # ganti sesuai kebutuhan
 }
 
 resource "aws_launch_template" "eks_node_lt" {
-  name = "${var.node_group_name}"
-  image_id      = var.ami_id
+  name          = "${var.node_group_name}"
+  image_id = var.ami_id != "" ? var.ami_id : data.aws_ssm_parameter.eks_ami.value
   instance_type = "t3.medium"
   key_name      = var.key_name
 
@@ -21,14 +21,11 @@ resource "aws_launch_template" "eks_node_lt" {
     security_groups             = [var.sg_id]
   }
 
-  iam_instance_profile {
-    name = aws_iam_instance_profile.eks_node_profile.name
-  }
-
   user_data = base64encode(templatefile("${path.module}/../../userdata.tpl", {
     cluster_name = var.cluster_name
   }))
 }
+
 
 resource "aws_eks_node_group" "eks_node_group" {
   cluster_name    = var.cluster_name

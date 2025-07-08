@@ -19,8 +19,9 @@ variable "node_group_name" {
 }
 
 variable "ami_id" {
-  description = "ID AMI untuk worker nodes"
-  default     = "ami-078748e0dc55b5fcf" # Amazon Linux 2 EKS Optimized AMI
+  description = "AMI ID for the EKS nodes"
+  type        = string
+  default     = "" # biarkan kosong, akan diisi otomatis
 }
 
 variable "key_name" {

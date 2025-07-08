@@ -24,7 +24,7 @@ variable "subnet_ids" {
 }
 
 variable "ami_id" {
-  description = "AMI ID for node worker"
+  description = "AMI ID for the worker nodes"
   type        = string
 }
 
